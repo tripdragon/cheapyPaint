@@ -1,6 +1,6 @@
 
-// import { PainterApp } from './js/painterApp.js';
-import { PainterApp } from './dist/painterAppModule.1.0.js';
+import { PainterApp } from './js/painterApp.js';
+// import { PainterApp } from './dist/painterAppModule.1.0.js';
 
 import {Vector2} from './js/vector2.js';
 import { mouseToCanvas, randomHexString } from './js/utilites.js';
