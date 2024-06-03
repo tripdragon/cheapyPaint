@@ -207,7 +207,12 @@ function setupKeyEvents(app){
         app.brushSize = Math.min(9, app.brushSize);
       }
       if(ev.key === "r"){
+        // need to add color box as well
         app.currentColorHex = randomHexString();  
+      }
+      if(ev.key === "c"){
+        app.generateDataImage();
+        app.clearScreen_CM();
       }
       
       
