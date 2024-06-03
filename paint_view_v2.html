@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Bleep bleep</title>
+    <!-- <script src="mission1.js" type="module" defer></script> -->
+    <!-- 
+    python3 -m http.server 8001 
+    
+    this is just a canvas 2d app for pixel painting for now
+    
+    it shows how class Grid works
+    
+    localhost:8001/System1/Demos/paintgrid.html
+    
+    brushsize
+    
+    -->
+
+
+    <style media="screen">
+        *{
+          margin: 0;
+          padding: 0;
+        }
+        body{
+          /* overflow: hidden; */
+        }
+        
+        /* ideally canvas gl is the bottom of the stack */
+        #canvassss {
+          z-index: -1;
+          position: absolute;
+        }
+    </style>
+
+    <style media="screen">
+      /* #controls{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 2;
+        
+        width: 100px;
+        height: 100px;
+        padding: 20px 0 0 20px;
+      }
+
+      #controls .add{
+        
+      } */
+      
+      #canvassss{
+        /* background-color: orange; */
+      }
+      
+      
+      .button{
+        width: 32px;
+        height: 32px;
+      }
+      
+      #controls222 {
+        position: absolute;
+        top: 0px;
+        z-index: 1;
+        
+        width: 100%;
+        height: 35px;
+        padding: 20px 0 0 20px;
+        
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-content: stretch;
+        align-items: flex-start;
+      }
+
+      #controls222 .button {
+        order: 0;
+        flex: 0 1 auto;
+        align-self: auto;
+        margin: 0 4px;
+        font-size: 20px;
+        
+      }
+      
+      #ksdjfg{
+        position: absolute;
+        z-index: 12;
+        bottom: 100px;
+        left: 100px;
+        background-color: white;
+        width: 1px;
+        height: 1px;
+      }
+      
+      #canvasness{
+        background: orange;
+      }
+      
+
+    </style>
+    
+    <!-- idea is to inject here and clear when switching games -->
+    <style id="gamestyles" media="screen">
+      .fish {
+        color: "pwgjpodg";
+      }
+      /* #canvassss{
+        left: 25%;
+        top: 25%;
+      } */
+      
+      #legend{
+        position: absolute;
+        left : 540px;
+        top: 20px;
+        color: black;
+        font-size: 16px;
+        font-family: sans-serif;
+      }
+      #legend p{
+        margin-top: 8px;
+      }
+      
+      #canvasness{
+        position: absolute;
+        left: 100px;
+        top: 100px;
+      }
+      #canvasness:focus{
+        outline: none;
+      }
+      
+      #hiragana{
+        position: absolute;
+        left: 500px;
+        top: 20px;
+        font-size: 1.2rem;
+      }
+      
+      #images{
+        width: 400px;
+        border: solid 1px green;
+        position: absolute;
+        left: 750px;
+      }
+      #images img{
+        display: inline-block;
+        width:100px;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+      }
+      
+      #buttons {
+        position: absolute;
+        left: 100px;
+        top: 520px;
+      }
+      #buttons input{
+        padding: 4px 10px;
+        width: 40px;
+      }
+      #buttons button{
+          padding: 4px 10px;
+      }
+      #buttons p{
+        padding-top: 20px;
+        width: 400px;
+      }
+    </style>
+    
+  </head>
+
+  <body>
+    <!-- <canvas id="canvassss" width="400" height="400"></canvas> -->
+
+    <!-- <div id="legend">
+      <h1>Keys</h1>
+      <p>Space up: new color</p>
+      <p>r down: live painting random color</p>
+      <p>[ : brushsize 1</p>
+      <p>] : brushsize 2</p>
+      <p>f : fill canvas</p>
+      <p>i down : hover for color picker</p>
+      <p>q down : save to file</p>
+      <p>Color palette: mouse down to pick</p>
+      
+    </div> -->
+
+<pre id="hiragana">
+  .  A  I   U  E   O
+  A. あ　い　う　え　お
+  K. か　き　く　け　こ
+  S. さ　し　す　せ　そ
+  T. た　ち　つ　て　と
+  N. な　に　ぬ　ね　の
+  H. は　ひ　ふ　へ　ほ
+  M. ま　み　む　め　も
+  Y. や　　　ゆ　　　よ
+  R. ら　り　る　れ　ろ
+  W. わ　　　　　　　を
+  .    ん
+  
+  a b c d e f g h i
+  j k l m n o p q r
+  s t s u v w x y z
+
+  0 1 2 3 4 5 6 7 8 9
+
+  A B C D E F G H I
+  J K L M O P Q R S
+  T U V W Z X Y
+</pre>
+
+    <canvas tabindex='1' id="canvasness" width="512" height="512"></canvas>
+    
+    <div id="buttons">
+      <input id="letterinput" type="text" />
+      <button id="clearbutton" value="??">clear</button>
+      <button id="savebutton" value="??">save</button>
+      <button id="iterrateSaveButton" value="??">iterate</button>
+      <button id="downloadButton" value="??">dowload</button>
+      <button id="dataDownloadButton" value="??">data dl</button>
+      <p>
+        clear : clears screen <br/>
+        save : sends painting to right stack and clears<br/>
+        iterate : saves and does not clear<br/>
+        dowload : prompts to download<br/>
+        data dl : downloads but to the size of the size^2 so its tiny 
+      </p>
+    </div>
+    
+
+    <div id="images">
+      <!-- <img src="./img/NFT_within_ourealy.png" alt=""> -->
+    </div>
+
+
+
+
+    <script type="text/javascript">
+    
+    // // need a global so its before modules
+    var app = {};
+    
+    // flash of unsized canvas, so push view after launch
+    const cc = document.getElementById("canvasness");
+    cc.style.opacity = 0;
+
+    </script>
+
+
+    <script type="module" type="text/javascript">
+      import {launch} from './launch.js';
+      
+      
+      // FUN!!!!
+      app = launch({
+          brushSize : 1,
+          resolution : 400,
+          gridUnit : 2*14,
+          canvasIdName : "canvasness",
+          currentColorHex : "#0000ff"
+      });
+      
+      const cc = document.getElementById("canvasness");
+      cc.style.opacity = 1;
+
+      
+      
+    </script>
+  </body>
+</html>
