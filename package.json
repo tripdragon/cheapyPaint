@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "parcel": "^2.12.0"
+  },
+  "name": "painter-app",
+  "version": "1.0.0",
+  "source": "./js/painterApp.js",
+  "module": "dist/painterAppModule.1.0.js"
+}

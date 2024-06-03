@@ -1,6 +1,8 @@
 
+// import { PainterApp } from './js/painterApp.js';
+import { PainterApp } from './dist/painterAppModule.1.0.js';
+
 import {Vector2} from './js/vector2.js';
-import { PainterApp } from './js/painterApp.js';
 import { mouseToCanvas, randomHexString } from './js/utilites.js';
 
 
@@ -211,8 +213,15 @@ function setupKeyEvents(app){
         app.currentColorHex = randomHexString();  
       }
       if(ev.key === "c"){
+        // app.generateDataImage();
+        app.clearScreen_CM();
+      }
+      if(ev.key === "s"){
         app.generateDataImage();
         app.clearScreen_CM();
+      }
+      if(ev.key === "i"){
+        app.generateDataImage();
       }
       
       
